@@ -8,27 +8,23 @@ import re
 from setuptools import setup
 
 
-version = re.search(
-    '^__version__\s*=\s*"(.*)"',
-    open('bootstrap/bootstrap.py').read(),
-    re.M
-    ).group(1)
+# version = re.search(
+#     '^__version__\s*=\s*"(.*)"',
+#     open('jsonconsolidator.jsonconsolidator.py').read(),
+#     re.M
+#     ).group(1)
 
-
-with open("README.rst", "rb") as f:
-    long_descr = f.read().decode("utf-8")
 
 
 setup(
-    name = "cmdline-bootstrap",
-    packages = ["bootstrap"],
+    name = "BIDS json-consolidator",
+    packages = ["jsonconsolidator"],
     entry_points = {
-        "console_scripts": ['bootstrap = bootstrap.bootstrap:main']
+        "console_scripts": ['jsonconsolidator = jsonconsolidator.jsonconsolidator:main']
         },
-    version = version,
-    description = "Python command line application bare bones template.",
-    long_description = long_descr,
-    author = "Jan-Philip Gehrcke",
-    author_email = "jgehrcke@googlemail.com",
-    url = "http://gehrcke.de/2014/02/distributing-a-python-command-line-application",
+    version = '0.1.0',
+    description = "Python command line application for bids json consolidator .",
+    long_description = "This package finds common k:v pairs in all jsons in bids dataset and creates json files at top level.",
+    author = "Suyash Bhogawar",
+    author_email = "abc@gmail.com",
     )
