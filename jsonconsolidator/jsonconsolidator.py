@@ -30,6 +30,9 @@ def main():
     # print("Stuff and Boo():\n%s\n%s" % (Stuff, Boo()))
     '''Check if dataset has session and edit search paths for json files accordingly'''
     bids_dspath = sys.argv[1]
+    if len(sys.argv) < 2:
+        print("Usage: jsonconsolidator path/to/dataset")
+        sys.exit()
     files_list = []
     regex = r"(?<=task-).*?(?=_)"
     tasks = []
