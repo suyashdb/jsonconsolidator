@@ -50,6 +50,10 @@ def main():
         task_search_path = os.path.join(bids_dspath, 'sub-*/ses*/func/')
 
     files = glob.glob(search_path)
+    if len(files) == 0:
+        print("There are no json files at sub*/func/ level to consolidate. Everything looks great. exiting...")
+        sys.exit()
+
     '''find all task names from the json files'''
     for file in files:
         x = os.path.basename(file)
@@ -65,6 +69,7 @@ def main():
     #check common key values pair in specific task jsons, for eg- if we have
     # 4 tasks, look for common key-values in each task and store a top level
     #json for it
+    print(tasks)
     for task in set(tasks):
         task_path = os.path.join(task_search_path, ('sub*task-' + task +'*.json'))
         taskfiles = glob.glob(task_path)
@@ -79,7 +84,7 @@ def main():
         #write common to top level task jsons
         if common:
             if os.path.exists(task_json_path):
-                old_data = json.loads(open(basefile).read())
+                old_data = json.loads(open(task_json_path).read())
                 common = {k:v  for k, v in old_data.items()  for k1,v1 in common.items() if k ==k1 and v==v1}
                 if common != old_data:
                     common.update(old_data)
@@ -103,6 +108,8 @@ def main():
                     json.dump(value, writefile, indent = 4)
 
 
+
+
     #check for items common in all task jsons created at top level
     # if iterate_topJsons is True:
     if iter_top_flag == len(set(tasks)):
@@ -110,25 +117,28 @@ def main():
         alltaskfiles = glob.glob(os.path.join(bids_dspath, filesearch))
         for file in alltaskfiles:
             alljson_list.append(json.loads(open(file).read()))
+        if len(alljson_list) > 1:
+            all_common = dict(set.intersection(*[set(d.items()) for d in alljson_list]))
+            if all_common:
+                with open(os.path.join(bids_dspath, 'bold.json'), 'w') as outfile:
+                        json.dump(all_common, outfile, indent = 4)
+            for toptaskfile in alltaskfiles:
+                file_data = json.loads(open(toptaskfile).read())
+                value = { k : file_data[k] for k in set(file_data) - set(all_common) }
+                if not value:
+                        print( toptaskfile, "- json data is same as bold.json hence it is deleted")
+                        os.remove(toptaskfile)
+                else:
+                    if 'SliceTiming' in value.keys():    # checks if slicetiming is list of lists
+                        if any(isinstance(el, list) for el in value['SliceTiming']):
+                            value['SliceTiming'] = sum(value['SliceTiming'], []) # flatten list of lists
+        #             print("not common values at top josn level are -  ", value)
+                    with open(toptaskfile, 'w') as writefile:
+                        json.dump(value, writefile, indent = 4)
+        else:
+            print("All jsons are already consolidated and doesnt require further cosolidation")
+            sys.exit()
 
-        all_common = dict(set.intersection(*[set(d.items()) for d in alljson_list]))
-
-        if all_common:
-            with open(os.path.join(bids_dspath, 'bold.json'), 'w') as outfile:
-                    json.dump(all_common, outfile, indent = 4)
-        for toptaskfile in alltaskfiles:
-            file_data = json.loads(open(toptaskfile).read())
-            value = { k : file_data[k] for k in set(file_data) - set(all_common) }
-            if not value:
-                    print( toptaskfile, "- json data is same as bold.json hence it is deleted")
-                    os.remove(toptaskfile)
-            else:
-                if 'SliceTiming' in value.keys():    # checks if slicetiming is list of lists
-                    if any(isinstance(el, list) for el in value['SliceTiming']):
-                        value['SliceTiming'] = sum(value['SliceTiming'], []) # flatten list of lists
-    #             print("not common values at top josn level are -  ", value)
-                with open(toptaskfile, 'w') as writefile:
-                    json.dump(value, writefile, indent = 4)
 
 
 
