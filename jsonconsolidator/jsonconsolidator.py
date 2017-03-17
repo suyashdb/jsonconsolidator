@@ -78,6 +78,11 @@ def main():
         task_json_path = os.path.join(bids_dspath, ('task-%s_bold.json' % (task)))
         #write common to top level task jsons
         if common:
+            if os.path.exists(task_json_path):
+                old_data = json.loads(open(basefile).read())
+                common = {k:v  for k, v in old_data.items()  for k1,v1 in common.items() if k ==k1 and v==v1}
+                if common != old_data:
+                    common.update(old_data)
             with open(task_json_path, 'w') as outfile:
                 json.dump(common, outfile, indent = 4)
             iter_top_flag = iter_top_flag + 1 #count how many tasks have common k:v
