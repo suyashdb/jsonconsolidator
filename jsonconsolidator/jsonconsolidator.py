@@ -26,13 +26,29 @@ import json, copy
 
 def main():
     # print("Executing bootstrap version %s." % __version__)
-    print("List of argument strings: %s" % sys.argv[1:])
+    print("List of argument strings: %s %s" % (sys.argv[1:], sys.argv[2:]))
     # print("Stuff and Boo():\n%s\n%s" % (Stuff, Boo()))
     '''Check if dataset has session and edit search paths for json files accordingly'''
     bids_dspath = sys.argv[1]
+    second_argument = 0
+
+
     if len(sys.argv) < 2:
         print("Usage: jsonconsolidator path/to/dataset")
         sys.exit()
+    if len(sys.argv) ==3:
+        second_argument = sys.argv[2]
+    else:
+        change_file = False
+        print("Dry Run - No files will be actually changed.")
+
+    if second_argument == '-v':
+        change_file = False
+    elif second_argument == 'final':
+        change_file = True
+
+
+
     files_list = []
     regex = r"(?<=task-).*?(?=_)"
     tasks = []
@@ -41,7 +57,7 @@ def main():
     alljson_list = []
     allfiles = []
     iter_top_flag = 0
-    change_file = False
+    # change_file = False
     iterate_topJsons = False
     changefile_list = []
     deletefile_list = []
@@ -83,7 +99,7 @@ def main():
     #check common key values pair in specific task jsons, for eg- if we have
     # 4 tasks, look for common key-values in each task and store a top level
     #json for it
-    print(tasks)
+    # print(tasks)
     for task in set(tasks):
         task_path = os.path.join(task_search_path, ('sub*task-' + task +'*.json'))
         taskfiles = glob.glob(task_path)
@@ -106,8 +122,8 @@ def main():
             if change_file is True:
                 with open(task_json_path, 'w') as outfile:
                     json.dump(common, outfile, indent = 4)
+                    newfile_list.append(task_json_path)
             else:
-                # print(task_json_path," -file will be created")
                 newfile_list.append(task_json_path)
             iter_top_flag = iter_top_flag + 1 #count how many tasks have common k:v
 
@@ -135,6 +151,7 @@ def main():
                     print("rewriting after removing common key:value pairs from json at subject level - ", basefile)
                     with open(basefile, 'w') as writefile:
                         json.dump(value, writefile, indent = 4)
+                    changefile_list.append(basefile)
                 else:
                     # print("Dry Run ... Following file will be re-written after removing common k:v pairs - ", basefile)
                     changefile_list.append(basefile)
