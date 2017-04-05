@@ -7,7 +7,7 @@
 __version__ = "0.0.1"
 
 
-import sys
+import sys, shutil
 from .stuff import Stuff
 import re, os, glob
 import json, copy
@@ -46,6 +46,11 @@ def main():
         change_file = False
     elif second_argument == 'final':
         change_file = True
+
+    if second_argument == 'final':
+        bakdir = os.path.join(bids_dspath,'.backup_json')
+        if os.path.isdir(bakdir) is False:
+            os.mkdir(bakdir)
 
 
 
@@ -134,6 +139,7 @@ def main():
             '''if the whole data is common then delete the files at base level'''
             if not value:
                 if change_file is True:
+                    shutil.copy2(basefile, bakdir)
                     print("all jsons are common hence base level json files are deleted, and a top level task json file is created")
                     os.remove(basefile)
                 else:
@@ -149,6 +155,7 @@ def main():
                 if change_file is True:
                     iterate_topJsons == True
                     print("rewriting after removing common key:value pairs from json at subject level - ", basefile)
+                    shutil.copy2(basefile, bakdir)
                     with open(basefile, 'w') as writefile:
                         json.dump(value, writefile, indent = 4)
                     changefile_list.append(basefile)

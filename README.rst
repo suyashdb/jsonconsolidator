@@ -22,5 +22,21 @@ python setup.py install
 
 Usage
 -----
+[Default]
 
 jsonconsolidator path/to/bids/dataset
+
+   This will just give list of files that will be changed/deleted or created new.
+
+Options:
+
+jsonconsolidator path/to/bids/dataset -v
+
+   This will just give list of files that will be changed/deleted or created new.
+
+
+jsonconsolidator path/to/bids/dataset final
+
+   Once you are happy with the consolidation and output by '-v' option, this will
+   actually change files and create new files. Back up of old files will be stored
+   under bids_dataset_path/.backup_json.
