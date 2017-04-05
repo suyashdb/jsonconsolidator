@@ -4,7 +4,7 @@
 """bootstrap.bootstrap: provides entry point main()."""
 
 
-__version__ = "0.0.1"
+__version__ = "0.0.2"
 
 
 import sys, shutil
@@ -143,7 +143,6 @@ def main():
                     print("all jsons are common hence base level json files are deleted, and a top level task json file is created")
                     os.remove(basefile)
                 else:
-                    # print(basefile, " - will be deleted")
                     deletefile_list.append(basefile)
             else:
                 for k, v in value.items():
@@ -151,7 +150,6 @@ def main():
                         if any(isinstance(el, list) for el in value[k]):    # checks if slicetiming is list of lists
                             if k in value.keys():
                                 value[k] = sum(value[k], []) # flatten list of lists
-                #print("not common values are -  ", value, task)
                 if change_file is True:
                     iterate_topJsons == True
                     print("rewriting after removing common key:value pairs from json at subject level - ", basefile)
@@ -178,7 +176,7 @@ def main():
 
 
     #check for items common in all task jsons created at top level
-    # if iterate_topJsons is True:
+
     if iter_top_flag == len(set(tasks)) & iterate_topJsons == True:
         filesearch = 'task-*bold.json'
         alltaskfiles = glob.glob(os.path.join(bids_dspath, filesearch))
