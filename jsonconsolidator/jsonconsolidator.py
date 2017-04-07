@@ -48,8 +48,9 @@ def main():
         change_file = True
 
     if second_argument == 'final':
-        bakdir = os.path.join(bids_dspath,'.backup_json')
+        bakdir = os.path.join(bids_dspath,'sourcedata/backup_json')
         if os.path.isdir(bakdir) is False:
+            os.mkdir(os.path.join(bids_dspath,'sourcedata'))
             os.mkdir(bakdir)
 
 
