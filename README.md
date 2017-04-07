@@ -30,12 +30,14 @@ Usage:
 
 Options:
 
-`jsonconsolidator path/to/bids/dataset -v`
+i).
+   `jsonconsolidator path/to/bids/dataset -v`
 
-   verbose mode `-v` gives list of files that will be changed/deleted or added new
+      verbose mode `-v` gives list of files that will be changed/deleted or added new
 
 
-`jsonconsolidator path/to/bids/dataset final`
+ii).
+   `jsonconsolidator path/to/bids/dataset final`
 
-   Once changes suggested in verbose mode are reviewed and correct, `final` option changes files and create back up for old files.
-   Old files are stored under `path_to_bids_dataset/sourcedata/backup_json`
+      Once changes suggested in verbose mode are reviewed and correct, `final` option changes files and create back up for old files.
+      Old files are stored under `path_to_bids_dataset/sourcedata/backup_json`
