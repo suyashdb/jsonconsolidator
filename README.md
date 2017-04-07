@@ -30,13 +30,13 @@ Usage:
 
 Options:
 
-i).
+1.
    `jsonconsolidator path/to/bids/dataset -v`
 
       verbose mode `-v` gives list of files that will be changed/deleted or added new
 
 
-ii).
+2.
    `jsonconsolidator path/to/bids/dataset final`
 
       Once changes suggested in verbose mode are reviewed and correct, `final` option changes files and create back up for old files.
