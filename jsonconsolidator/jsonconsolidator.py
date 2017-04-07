@@ -12,22 +12,10 @@ from .stuff import Stuff
 import re, os, glob
 import json, copy
 
-# bids_dspath = '/Users/suyashdb/Downloads/ds212'
-
-# files_list = []
-# regex = r"(?<=task-).*?(?=_)"
-# tasks = []
-# task  = 'xyz'
-# json_list = []
-# alljson_list = []
-# allfiles = []
-# iter_top_flag = 0
 
 
 def main():
-    # print("Executing bootstrap version %s." % __version__)
     print("List of argument strings: %s %s" % (sys.argv[1:], sys.argv[2:]))
-    # print("Stuff and Boo():\n%s\n%s" % (Stuff, Boo()))
     '''Check if dataset has session and edit search paths for json files accordingly'''
     bids_dspath = sys.argv[1]
     second_argument = 0
@@ -105,7 +93,6 @@ def main():
     #check common key values pair in specific task jsons, for eg- if we have
     # 4 tasks, look for common key-values in each task and store a top level
     #json for it
-    # print(tasks)
     for task in set(tasks):
         task_path = os.path.join(task_search_path, ('sub*task-' + task +'*.json'))
         taskfiles = glob.glob(task_path)
@@ -161,11 +148,6 @@ def main():
                 else:
                     # print("Dry Run ... Following file will be re-written after removing common k:v pairs - ", basefile)
                     changefile_list.append(basefile)
-                # if any(isinstance(el, list) for el in value['SliceTiming']):    # checks if slicetiming is list of lists
-                #     if 'SliceTiming' in value.keys():
-                #         value['SliceTiming'] = sum(value['SliceTiming'], []) # flatten list of lists
-                # with open(basefile, 'w') as writefile:
-                #     json.dump(value, writefile, indent = 4)
         print("Common k:v pairs for task-", task, '\n', common)
         print("***** Files to be changed after removing above common k:v pair***** \n ", changefile_list, '\n')
         changefile_list = []
@@ -204,9 +186,3 @@ def main():
         else:
             print("All jsons are already consolidated and doesnt require further cosolidation")
             sys.exit()
-
-
-
-
-class Boo(Stuff):
-    pass
