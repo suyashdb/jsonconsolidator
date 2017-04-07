@@ -9,8 +9,8 @@ Once top level task jsos are created, it checks if they share any common k:v pai
  Common k:v pairs found in each case are deleted from the jsons at all other
  levels.
 
-Install
------
+Installation:
+------------
 
 Clone this repository:
 
@@ -20,23 +20,22 @@ cd jsonconsolidator
 
 python setup.py install
 
-Usage
+Usage:
 -----
 [Default]
 
 jsonconsolidator path/to/bids/dataset
 
-   This will just give list of files that will be changed/deleted or created new.
+   Default mode is verbose. This gives list of files that will be changed/deleted or created new
 
 Options:
 
 jsonconsolidator path/to/bids/dataset -v
 
-   This will just give list of files that will be changed/deleted or created new.
+   [verbose mode]: it gives list of files that will be changed/deleted or added new
 
 
 jsonconsolidator path/to/bids/dataset final
 
-   Once you are happy with the consolidation and output by '-v' option, this will
-   actually change files and create new files. Back up of old files will be stored
-   under bids_dataset_path/.backup_json.
+   Once changes suggested in verbose mode are reviewed and correct, `final` option changes files and create back up for old files.
+   Old files are stored under `path_to_bids_dataset/sourcedata/backup_json`
