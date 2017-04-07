@@ -9,7 +9,7 @@ Once top level task jsos are created, it checks if they share any common k:v pai
  Common k:v pairs found in each case are deleted from the jsons at all other
  levels.
 
-#Installation:
+# Installation:
 ------------
 
 Clone this repository:
@@ -20,7 +20,7 @@ Clone this repository:
 
 `python setup.py install`
 
-#Usage:
+# Usage:
 -----
 [Default]
 
@@ -28,7 +28,7 @@ Clone this repository:
 
    Default mode is verbose. This gives list of files that will be changed/deleted or created new
 
-##Options:
+## Options:
 
 1.
    `jsonconsolidator path/to/bids/dataset -v`
