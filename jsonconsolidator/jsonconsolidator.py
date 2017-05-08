@@ -8,7 +8,7 @@ __version__ = "0.0.2"
 
 
 import sys, shutil
-from .stuff import Stuff
+# from .stuff import Stuff
 import re, os, glob
 import json, copy
 
